@@ -7,7 +7,7 @@ function RatingStars(props) {
 
     const [stars, setStars] = useState([])
     const [rating, setRating] = useState(0)
-    props.changeRating(rating)
+    // props.changeRating(rating)
 
 
     useEffect(() => {

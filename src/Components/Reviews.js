@@ -11,24 +11,30 @@ import axiosClient from "../AxiosCodes/axios";
 import ReviewDialogBox from "./ReviewDialogBox";
 
 function Reviews(props) {
-  let product = props.product;
-  const [reviews, setReviews] = useState();
+  // let product = props.product;
+  // const [reviews, setReviews] = useState();
+  let reviews= props.reviews;
   const [open, setOpen] = useState(false)
 
-//   useEffect(() => {
-//     axiosClient.get("/reviews").then((res) => {
-//       setReviews(res.data);
-//     });
-//   }, []);
+  // useEffect(() => {
+  //   // axiosClient.get("/reviews").then((res) => {
+  //   //   setReviews(res.data);
+  //   // });
+  //   fetch("./reviews.txt")
+  //   .then((res)=>{res.json()})
+  //   .then((res)=>{
+  //     setReviews(res[0]);
+  //   })
+  // }, []);
 
   return (
     <>
-      <div style={{ height: 40, display: "flex", marginTop: 5 }}>
+      <div style={{ height: 40, display: "flex", marginTop: 5, marginLeft: 25 }}>
         <Typography variant="h4" sx={{ marginRight: "50%" }}>
           Reviews
         </Typography>
       </div>
-      {/*<Grid>
+      <Grid>
         <Paper elevation={10} style={styles.paper}>
           {reviews.slice(0,5).map((review) => {
             return (
@@ -45,14 +51,14 @@ function Reviews(props) {
                   </Typography>
                 </div>
                 <Typography variant="h6" sx={{ marginLeft: 10 }}>
-                  {product.products.content}
+                  {review.product_content}
                 </Typography>
               </>
             );
           })}
         </Paper>
         </Grid>
-    */}
+   
       <div style={{ width: "75%", padding: 10, textAlign: "right" }}>
         <Button 
         variant="contained" 
@@ -80,7 +86,7 @@ const styles = {
   },
   paper: {
     padding: 20,
-    height: "70vh",
+    height: "auto",
     width: "70%",
     margin: 20,
   },
