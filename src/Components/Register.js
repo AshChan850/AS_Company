@@ -1,10 +1,13 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Button, Grid, Paper, TextField, createTheme } from "@mui/material";
-import { orange, amber } from "@mui/material/colors";
-import UserPool from "./UserPool";
+import React, { useRef, useState, useEffect, useContext } from "react";
+import { Button, Grid, Paper, TextField } from "@mui/material";
 import SignUpLoginButton from "./SignUpLoginButton";
 import UserRadioButton from "./UserRadioButton";
+import UserPool from "./UserPool";
 import { AuthenticationDetails, CognitoUser } from "amazon-cognito-identity-js";
+import {AccountContext} from "../auth/AuthWrapper"
+import { useNavigate } from "react-router-dom";
+
+
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/;
@@ -68,27 +71,17 @@ function Register() {
     }
   };
 
+  const {authenticate, getSession} = useContext(AccountContext);
+  const navigate = useNavigate();
+
   const handleLoginSubmit = () => {
-
-    const userdetails = new CognitoUser({
-        Username: user,
-        Pool: UserPool
+    authenticate(user, pwd)
+    .then((res)=>{
+        console.log("Logged in:",res);
+        navigate("/");
     })
-    const authDetails = new AuthenticationDetails({
-        Username: user,
-        Password: pwd
-    })
-
-    userdetails.authenticateUser(authDetails, {
-        onSuccess: (data)=>{
-            console.log("On Success: ",data);
-        },
-        onFailure: (err)=>{
-            console.log("Error: ",err)
-        },
-        newPasswordRequired: (data)=>{
-            console.log("New Password: ",data)
-        }
+    .catch((err)=>{
+        console.log(err);
     })
   };
 
@@ -227,9 +220,3 @@ const styles = {
     padding: 2,
   },
 };
-// const theme = createTheme({
-//     palette: {
-//       primary: orange,
-//       secondary: amber,
-//     },
-//   });
