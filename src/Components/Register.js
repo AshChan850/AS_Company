@@ -62,8 +62,9 @@ function Register() {
           console.log(err);
           return;
         }
-
-        console.log(data);
+        var cognitoUser = data.user;
+	console.log('user name is ' + cognitoUser.getUsername());
+        // console.log(data);
       });
     }
     else{

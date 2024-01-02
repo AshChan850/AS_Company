@@ -11,6 +11,7 @@ import {
 import React, { useEffect, useState } from "react";
 import Reviews from "./Reviews";
 import axiosClient from "../AxiosCodes/axios";
+import NavBar from "./NavBar";
 // import logo192 from '../../public/logo192.png'
 function ProductPage() {
   // const [product, setProduct] = useState({
@@ -28,6 +29,7 @@ function ProductPage() {
   // });
 
   const [reviews, setReviews] = useState([{}]);
+  const [product, setProduct] = useState({})
   // const reviews = useRef(second)
   
 
@@ -35,6 +37,25 @@ function ProductPage() {
     // axiosClient.get("./reviews.json").then((res) => {
     //   setReviews(res.data);
     // });
+    fetch("./products.json",{
+      headers:{
+        'Content-type': 'application/json',
+        'Accept':'application/json'
+      }
+    })
+    .then(async (res)=>{
+      console.log(res);
+      setProduct(await res.json());
+    })
+    // .then((res)=>{
+    //   console.log(res);
+    //   setProduct(res);
+    // })
+    .catch((err)=>{
+      console.log(err);
+    })
+
+
     fetch("./reviews.json",{
       headers:{
         'Content-type': 'application/json',
@@ -55,21 +76,22 @@ function ProductPage() {
     })
   }, []);
 
-useEffect(() => {
-  console.log(reviews);
+// useEffect(() => {
+//   console.log(reviews);
 
-}, [reviews])
+// }, [reviews])
 
 
   return (
     <div>
-      <Typography variant="h3" sx={styles.details}>{reviews[0].product_name}</Typography>
+    <NavBar/>
+      <Typography variant="h3" sx={styles.details}>{product.productName}</Typography>
       <div style={styles.image}>
         <div style={{ height: "60vh" }}>
-          <img src={reviews[0].product_src} style={{ width: "100%" }} alt="na" />
+          <img src={product.s3Link} style={{ width: "100%" }} alt="na" />
         </div>
         <Box sx={{ width: "90%", marginLeft: 10, height: "auto" }}>
-          <Typography variant="h4">{reviews[0].product_description}</Typography>
+          <Typography variant="h4">{product.productDes}</Typography>
           {/* <Typography variant="h5">{reviews[0].product_content}</Typography> */}
         </Box>
       </div>

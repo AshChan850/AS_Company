@@ -9,25 +9,44 @@ function AuthWrapper(props) {
     const [userName, setuserName] = useState("")
     const [authResponse,setauthResponse] = useState({});
 
-    const getSession= ()=>{
-        return new Promise((resolve,reject)=>{
-            const user = Pool.getCurrentUser();
-            // console.log(user);
-            if(user){
-                user.getSession((err,session)=>{
-                    if(err){
-                        reject(err); 
-                    }
-                    else{
-                        resolve(session);
-                    }
-                })
-            }
-            else{
-                reject();
-            }
-        })
-    }
+    // const getSession= ()=>{
+    //     // return new Promise((resolve,reject)=>{
+    //         const user = Pool.getCurrentUser();
+    //         console.log(user);
+    //         if(user!=null){
+    //             user.getSession((err,session)=>{
+    //                 if(err){
+    //                     // reject(err); 
+    //                     console.log(err);
+    //                     return null;
+    //                 }
+    //                 else{
+    //                     // resolve(session);
+    //                     console.log(session);
+    //                     return session;
+    //                 }
+    //             })
+    //         }
+    //         else{
+    //             // reject();
+    //             return null;
+    //         }
+    //     // })
+    // }
+    const getSession = async() => {
+        const user = Pool.getCurrentUser();
+        if (!user) {
+          return null;
+        }
+        try {
+          const session = await new Promise((resolve, reject) => {
+            user.getSession(resolve, reject);
+          });
+          return session;
+        } catch (err) {
+          return null;
+        }
+      }
 
     const authenticate = (Username, Password)=>{
         setuserName(Username);
@@ -67,6 +86,7 @@ function AuthWrapper(props) {
             setuserName("");
             user.signOut();
         }
+        console.log(authResponse);
     }
 
 

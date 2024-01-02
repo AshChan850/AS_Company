@@ -7,16 +7,41 @@ import Register from './Components/Register';
 function AppRoutes() {
 
     const {getSession} = useContext(AccountContext);
-    const authCheck =  (component)=>{
-        const user= getSession()
-        .then((res)=>{
-            console.log(res)
-            return res
+
+    const authCheckHelper = async(component)=>{
+        try{
+            const user = await getSession();
+            console.log(user);
+            return user;
         }
-        )
-        .catch((err)=>{
-            console.log(err);
-        })
+        catch(err){
+            return null;
+        }
+        // .then((res)=>{
+        //     return res;
+        // })
+        // .catch((err)=>{
+        //     console.log(err);
+        //     return null;
+        // })
+
+    }
+
+    const authCheck =  (component)=>{
+        
+        // const user = authCheckHelper(component);
+
+        // console.log(user);
+        const user=  getSession();
+        // .then((res)=>{
+        //     console.log(res)
+        //     return res
+        // }
+        // )
+        // .catch((err)=>{
+        //     console.log(err);
+        //     return null;
+        // })
         console.log(user);
         if(user){
             return component

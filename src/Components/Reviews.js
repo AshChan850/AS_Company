@@ -42,16 +42,16 @@ function Reviews(props) {
                 <div style={{ display: "flex" }}>
                   <IconButton sx={{ p: 0, marginRight: 5 }}>
                     <Avatar
-                      alt="Remy Sharp"
+                      alt={review.user_id}
                       src="/static/images/avatar/2.jpg"
                     />
                   </IconButton>
                   <Typography variant="h5">
-                    {review.text}   
+                    {review.review_text}   
                   </Typography>
                 </div>
                 <Typography variant="h6" sx={{ marginLeft: 10 }}>
-                  {review.product_content}
+                  {review.rating}
                 </Typography>
               </>
             );
